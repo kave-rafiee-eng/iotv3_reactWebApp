@@ -19,6 +19,8 @@ import SubMenuGraphic from "./menuComponent/subMenuGraphc";
 import MenuNavBar from "./menuComponent/menuNavBAr";
 import MenuOneParameter from "./menuComponent/menuOneParameter";
 
+import MenuOneSelect from "./menuComponent/menuOneSelect";
+
 import { useState } from "react";
 function Icon(label) {
   switch (label) {
@@ -32,10 +34,10 @@ function Icon(label) {
 }
 export default function IotHome() {
   const [menuStack, setMenuStack] = useState(["mainMenu"]);
-  console.log(menuStack);
+  //const [menuStack, setMenuStack] = useState(["MenuId_0x803d254"]);
+  //console.log(menuStack);
 
   let currentMenu = menuDataJson[menuStack[menuStack.length - 1]];
-  console.log(currentMenu);
 
   //menuDataJson["mainMenu"]
   const handleSubMenuClick = (submenu) => {
@@ -76,6 +78,9 @@ export default function IotHome() {
       )}
       {currentMenu.type === menuTypes.MENU_TYPE_SETTING_ON_PARAMETER && (
         <MenuOneParameter currentMenu={currentMenu} />
+      )}
+      {currentMenu.type === menuTypes.MENU_TYPE_SETTING_ON_SELECT && (
+        <MenuOneSelect currentMenu={currentMenu} allMenu={menuDataJson} />
       )}
     </>
   );

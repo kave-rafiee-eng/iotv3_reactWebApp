@@ -1,11 +1,30 @@
 import { menuTypes } from "./../defMenuType";
 
 import { Button, TextField, Stack } from "@mui/material";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import CardSetting from "./card";
 
+import { useSocketStore } from "./../socketStore";
+import BtnReadSave from "./btnReadSave";
+
+import { useFlashReset } from "./../hooks/useFlashReset";
+import { useAutoUpdate } from "./../hooks/useAutoUpdate";
+
 export default function MenuOneParameter({ currentMenu }) {
+  const PCI_Setting = useSocketStore((s) => s.PCI_Setting);
+
+  const [state, setState] = useState({
+    valueSetting: 0,
+    commFault: false,
+  });
+  const stateRef = useRef({
+    interval: null,
+    speed: 150,
+    userEngage: false,
+    processRun: false,
+  });
+
   let setting = {
     minValue: 0,
     maxValue: 0,
@@ -30,35 +49,108 @@ export default function MenuOneParameter({ currentMenu }) {
   setting.minValue = item.data.setting.minValue * setting.stepValue;
   setting.maxValue = item.data.setting.maxValue * setting.stepValue;
 
-  console.log(setting);
-
-  const [valueSetting, setvalueSetting] = useState(0);
-  const intervalRef = useRef(null);
-  const speedRef = useRef(150);
+  const [flash, setFlash] = useFlashReset(false, 500);
 
   const startChange = (direction) => {
-    if (intervalRef.current) return;
-    speedRef.current = 500;
+    stateRef.current.userEngage = true;
+
+    if (stateRef.current.interval) return;
+    stateRef.current.speed = 500;
     const run = () => {
-      setvalueSetting((prev) => {
-        let newValue = prev + setting.stepValue * direction;
-        return CheckRange(
+      setState((prev) => {
+        let newValue = prev.valueSetting + setting.stepValue * direction;
+        newValue = CheckRange(
           newValue,
           setting.minValue,
           setting.maxValue,
           setting.stepValue,
         );
+        return {
+          ...prev,
+          valueSetting: newValue,
+        };
       });
-      speedRef.current *= 0.85;
-      intervalRef.current = setTimeout(run, speedRef.current);
+      stateRef.current.speed *= 0.85;
+      stateRef.current.interval = setTimeout(run, stateRef.current.speed);
     };
     run();
   };
 
   const stopChange = () => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = null;
+    clearInterval(stateRef.current.interval);
+    stateRef.current.interval = null;
   };
+
+  let bgColor = "transparent";
+  if (flash) bgColor = "success.light";
+  else if (stateRef.current.userEngage) bgColor = "blue";
+  else if (state.commFault) bgColor = "red";
+
+  const ProcessWrite = async () => {
+    if (stateRef.current.processRun) return;
+    stateRef.current.userEngage = false;
+    stateRef.current.processRun = true;
+    try {
+      const res = await PCI_Setting(
+        [setting.address],
+        [state.valueSetting],
+        true,
+        true,
+      );
+      setState((prev) => {
+        return {
+          ...prev,
+          valueSetting: res.registerValue,
+          commFault: false,
+        };
+      });
+      setFlash(true);
+    } catch (err) {
+      console.error(err);
+
+      setState((prev) => {
+        return {
+          ...prev,
+          commFault: true,
+        };
+      });
+    }
+    stateRef.current.processRun = false;
+  };
+
+  const ProcessRead = async () => {
+    if (stateRef.current.processRun) return;
+    stateRef.current.userEngage = false;
+    stateRef.current.processRun = true;
+    try {
+      const res = await PCI_Setting([setting.address], [], false, true);
+      setState((prev) => {
+        return {
+          ...prev,
+          valueSetting: res.registerValue,
+          commFault: false,
+        };
+      });
+      setFlash(true);
+    } catch (err) {
+      console.error(err);
+
+      setState((prev) => {
+        return {
+          ...prev,
+          commFault: true,
+        };
+      });
+    }
+    stateRef.current.processRun = false;
+  };
+
+  useAutoUpdate({
+    ProcessRead: ProcessRead,
+    StopFn: () => {
+      return stateRef.current.userEngage || stateRef.current.processRun;
+    },
+  });
 
   const CardChild = () => {
     return (
@@ -69,14 +161,18 @@ export default function MenuOneParameter({ currentMenu }) {
             onMouseDown={() => startChange(-1)}
             onMouseUp={stopChange}
             onMouseLeave={stopChange}
+            disabled={stateRef.current.processRun}
           >
             ↓
           </Button>
 
           <TextField
-            value={valueSetting}
+            value={state.valueSetting}
             size="small"
-            sx={{ width: 80 }}
+            sx={{
+              width: 80,
+              bgcolor: bgColor,
+            }}
             step={setting.stepValue}
             InputProps={{
               readOnly: true,
@@ -88,10 +184,18 @@ export default function MenuOneParameter({ currentMenu }) {
             onMouseDown={() => startChange(1)}
             onMouseUp={stopChange}
             onMouseLeave={stopChange}
+            disabled={stateRef.current.processRun}
           >
             ↑
           </Button>
         </Stack>
+
+        <BtnReadSave
+          disabledRead={stateRef.current.processRun}
+          disabledSave={stateRef.current.processRun}
+          handleRead={ProcessRead}
+          handleSave={ProcessWrite}
+        />
       </>
     );
   };
