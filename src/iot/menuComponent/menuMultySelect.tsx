@@ -205,8 +205,10 @@ export default function MenuMultySelect({
       {
         id: "prog",
         label: "prog",
+        Width: "10%",
       },
       {
+        Width: "70%",
         id: "state",
         label: "state",
         render: (row) => {
@@ -258,18 +260,31 @@ export default function MenuMultySelect({
   };
 
   return (
-    <>
+    <CardSetting title={currentMenu.title}>
       <TableBasic
+        height={"50vh"}
         columns={props.columns}
         tableData={props.tableData}
       ></TableBasic>
-
       <BtnReadSave
         disabledRead={stateRef.current.processRun}
         disabledSave={stateRef.current.processRun}
         handleRead={() => processPCI(false)}
         handleSave={() => processPCI(true)}
       />
-    </>
+    </CardSetting>
   );
 }
+/*
+    <CardSetting title={currentMenu.title}>
+      <TableBasic
+        columns={props.columns}
+        tableData={props.tableData}
+      ></TableBasic>
+      <BtnReadSave
+        disabledRead={stateRef.current.processRun}
+        disabledSave={stateRef.current.processRun}
+        handleRead={() => processPCI(false)}
+        handleSave={() => processPCI(true)}
+      />
+    </CardSetting>*/

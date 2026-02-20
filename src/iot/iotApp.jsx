@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import BasicModal from "./component/modal";
 import { useState } from "react";
 
-import { Button, TextField, Stack } from "@mui/material";
+import { Button, TextField, Stack, Drawer } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
@@ -21,6 +21,7 @@ import MyAppBar from "./component/AppBar";
 import Typography from "@mui/material/Typography";
 
 import { useTranslation } from "react-i18next";
+import FullPageScroll from "./monitoring/monitoringHome";
 
 function AppIot() {
   const { t } = useTranslation();
@@ -46,6 +47,72 @@ function AppIot() {
 
   return (
     <>
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          m: 0,
+          p: 0,
+          t: 0,
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            background: "green",
+            m: 0,
+            p: 0,
+            t: 0,
+          }}
+        >
+          <MyAppBar
+            handleDrawerOpen={() => setDrawerOpen(true)}
+            open={drawerOpen}
+          />
+          <MiniDrawer setOpen={setDrawerOpen} open={drawerOpen} />
+        </Box>
+
+        <Box
+          sx={{
+            width: "100%",
+            position: "absolute",
+            p: 0,
+            t: 0,
+            m: 0,
+            display: "flex",
+          }}
+        >
+          <Box
+            sx={{
+              width: "85vw",
+              p: 0,
+              t: 0,
+              m: 0,
+              ml: "15vw",
+              mt: "10vh",
+            }}
+          >
+            <Routes>
+              <Route path="/" element={<IotHome />} />
+              <Route path="/setting" element={<IotHome />} />
+              <Route path="/monitornig" element={<FullPageScroll />} />
+            </Routes>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
+}
+
+export default AppIot;
+
+/*
+        <Typography sx={{ marginBottom: 2 }}>
+          {t("welcomeMess", { user: "kave" })}
+        </Typography>
+*/
+/*
       <Snackbar
         open={commModal.open}
         autoHideDuration={6000}
@@ -76,32 +143,7 @@ function AppIot() {
         title={"Cooecting to Ws..."}
         body={"please Wait"}
       />
-
-      <Box sx={{ display: "flex" }}>
-        <MyAppBar
-          handleDrawerOpen={() => setDrawerOpen(true)}
-          open={drawerOpen}
-        />
-        <MiniDrawer setOpen={setDrawerOpen} open={drawerOpen} />
-
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <Typography sx={{ marginBottom: 2 }}>
-            {t("welcomeMess", { user: "kave" })}
-          </Typography>
-
-          <Routes>
-            <Route path="/" element={<IotHome />} />
-            <Route path="/setting" element={<IotHome />} />
-            <Route path="/monitoring" element={<IotHome />} />
-          </Routes>
-        </Box>
-      </Box>
-    </>
-  );
-}
-
-export default AppIot;
-
+      */
 /*
       {<IotNavBar />}
       <Routes>

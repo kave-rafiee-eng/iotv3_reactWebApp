@@ -27,16 +27,16 @@ export default function MenuNavBar({
     handleMenuChenge(copyStack);
   };
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h6">
-          CurrentMenu = {allMenus[menuStackArr[menuStackArr.length - 1]].title}
-        </Typography>
-        <Typography variant="body2">
-          num Of stack {menuStackArr.length}
-        </Typography>
-      </CardContent>
-
+    <Card
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 0,
+        justifyContent: "flex-start",
+        m: 1,
+        p: 0,
+      }}
+    >
       <CardActions>
         <Box
           sx={{
@@ -45,6 +45,7 @@ export default function MenuNavBar({
             gap: 1,
             justifyContent: "flex-start",
             width: "100%",
+            m: 0,
           }}
         >
           {menuStackArr.map((menu, index) => {
@@ -66,20 +67,9 @@ export default function MenuNavBar({
 }
 
 /*
-
-
-      
-            <Paper sx={{ borderRadius: "25px" }} elevation={5}>
-              <Box p={1}>
-                <Typography variant="h6">{mainMenu.title}</Typography>
-                <Typography variant="body2">
-                  num Of Items = {mainMenu.items.length}
-                </Typography>
-              </Box>
-
-              <Button size="small" color="primary">
-                Primary
-              </Button>
-            </Paper>
-
-            */
+      <CardContent>
+        <Typography variant="h20">
+          CurrentMenu = {allMenus[menuStackArr[menuStackArr.length - 1]].title}
+        </Typography>
+      </CardContent>
+      */

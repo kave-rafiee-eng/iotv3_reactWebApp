@@ -8,7 +8,7 @@ import LanguageSelector from "./languageSelect";
 
 import { styled, useTheme } from "@mui/material/styles";
 
-const drawerWidth = 150;
+const drawerWidth = "100%";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -23,7 +23,7 @@ const AppBar = styled(MuiAppBar, {
       props: ({ open }) => open,
       style: {
         marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `calc(100% - ${drawerWidth})`,
         transition: theme.transitions.create(["width", "margin"], {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
@@ -38,28 +38,43 @@ export default function MyAppBar({ open, handleDrawerOpen }) {
     <>
       <CssBaseline />
 
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: "none" },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-
+      <AppBar
+        position="fixed"
+        open={open}
+        sx={{
+          height: "10vh",
+          m: 0,
+          justifyItems: "center",
+        }}
+      >
+        <Toolbar
+          sx={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
           <Stack
             direction={"row"}
             justifyContent={"center"}
             alignItems={"center"}
+            sx={{
+              marginBottom: 1,
+            }}
           >
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={[
+                {
+                  marginRight: 3,
+                },
+                open && { display: "none" },
+              ]}
+            >
+              <MenuIcon />
+            </IconButton>
             <LanguageSelector />
           </Stack>
         </Toolbar>

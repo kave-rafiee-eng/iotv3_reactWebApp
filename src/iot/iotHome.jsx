@@ -62,36 +62,51 @@ export default function IotHome() {
 
   return (
     <>
-      <div>Home Iot</div>
-      {
-        <MenuNavBar
-          allMenus={menuDataJson}
-          menuStackArr={menuStack}
-          handleMenuChenge={handleNewStack}
-        />
-      }
-
-      {(currentMenu.type === menuTypes.MENU_TYPE_SUBMENU_GRAPHC ||
-        currentMenu.type === menuTypes.MENU_TYPE_SUBMENU) && (
-        <SubMenuGraphic
-          allMenus={menuDataJson}
-          currentMenu={currentMenu}
-          handleSubMenuClick={handleSubMenuClick}
-        />
-      )}
-      {currentMenu.type === menuTypes.MENU_TYPE_SETTING_ON_PARAMETER && (
-        <MenuOneParameter currentMenu={currentMenu} />
-      )}
-      {currentMenu.type === menuTypes.MENU_TYPE_SETTING_ON_SELECT && (
-        <MenuOneSelect currentMenu={currentMenu} allMenu={menuDataJson} />
-      )}
-      {currentMenu.type ===
-        menuTypes.MENU_TYPE_SETTING_MULTY_SELECT_ONE_STAGE && (
-        <MenuMultySelect currentMenu={currentMenu} allMenu={menuDataJson} />
-      )}
-      {currentMenu.type === menuTypes.MENU_TYPE_SETTING_MULTY_GROUP && (
-        <MenuMultyGroup currentMenu={currentMenu} allMenu={menuDataJson} />
-      )}
+      <Grid
+        container
+        direction="column"
+        spacing={1}
+        sx={{
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Grid
+          size={{ xs: 12, sm: 12, md: 4, lg: 4, xl: 4 }}
+          direction={"column"}
+          sx={{ justifyContent: "center" }}
+        >
+          {
+            <MenuNavBar
+              allMenus={menuDataJson}
+              menuStackArr={menuStack}
+              handleMenuChenge={handleNewStack}
+            />
+          }
+          {(currentMenu.type === menuTypes.MENU_TYPE_SUBMENU_GRAPHC ||
+            currentMenu.type === menuTypes.MENU_TYPE_SUBMENU) && (
+            <SubMenuGraphic
+              allMenus={menuDataJson}
+              currentMenu={currentMenu}
+              handleSubMenuClick={handleSubMenuClick}
+            />
+          )}
+          {currentMenu.type === menuTypes.MENU_TYPE_SETTING_ON_PARAMETER && (
+            <MenuOneParameter currentMenu={currentMenu} />
+          )}
+          {currentMenu.type === menuTypes.MENU_TYPE_SETTING_ON_SELECT && (
+            <MenuOneSelect currentMenu={currentMenu} allMenu={menuDataJson} />
+          )}
+          {currentMenu.type ===
+            menuTypes.MENU_TYPE_SETTING_MULTY_SELECT_ONE_STAGE && (
+            <MenuMultySelect currentMenu={currentMenu} allMenu={menuDataJson} />
+          )}
+          {currentMenu.type === menuTypes.MENU_TYPE_SETTING_MULTY_GROUP && (
+            <MenuMultyGroup currentMenu={currentMenu} allMenu={menuDataJson} />
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 }

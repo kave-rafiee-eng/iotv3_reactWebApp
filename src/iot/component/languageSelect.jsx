@@ -26,13 +26,13 @@ export default function LanguageSelector() {
       sx={{
         bgcolor: "background.paper",
         borderRadius: 3,
-        px: 1.5,
-        py: 0.5,
+        px: 0,
+        py: 0,
       }}
     >
       <LanguageIcon sx={{ color: "text.secondary", fontSize: 20 }} />
 
-      <FormControl variant="standard" sx={{ minWidth: 78 }}>
+      <FormControl variant="standard" sx={{ minWidth: 30 }}>
         <Select
           onChange={(e) => {
             setLanguage(e.target.value);
@@ -52,6 +52,7 @@ export default function LanguageSelector() {
               right: 0,
               color: "text.secondary",
             },
+            maxWidth: 50,
           }}
           MenuProps={{
             PaperProps: {

@@ -11,6 +11,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 import { ReactNode } from "react";
+import { Box } from "@mui/material";
 
 type ColumnType<RowType = any> = {
   id: keyof RowType;
@@ -23,11 +24,13 @@ type ColumnType<RowType = any> = {
 };
 
 export type TableBasicProps<RowType> = {
+  height?: number | string;
   columns: ColumnType<RowType>[];
   tableData: RowType[];
 };
 
 export function TableBasic<RowType extends { id: number | string }>({
+  height,
   columns,
   tableData,
 }: TableBasicProps<RowType>) {
@@ -38,8 +41,15 @@ export function TableBasic<RowType extends { id: number | string }>({
   }, []);
 
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-      <Table stickyHeader aria-label="simple table">
+    <TableContainer
+      component={Paper}
+      sx={{ width: "100%", p: 0, m: 0, height: height }}
+    >
+      <Table
+        stickyHeader
+        aria-label="simple table"
+        sx={{ width: "100%", p: 0, m: 0 }}
+      >
         <TableHead>
           <TableRow>
             {columns.map((column) => (
@@ -62,7 +72,7 @@ export function TableBasic<RowType extends { id: number | string }>({
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody sx={{}}>
           {rows.map((row) => (
             <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
               {columns.map((column) => {

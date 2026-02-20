@@ -24,6 +24,7 @@ import { IconsManifest } from "react-icons";
 
 import { CalShowValue, CalculateColorState } from "./genericFn";
 
+import CardSetting from "./card";
 type menusType = typeof menuesJson;
 
 type settingSelectType = {
@@ -513,17 +514,18 @@ export default function MenuMultyGroup({
 
   return (
     <>
-      {" "}
-      <TableBasic
-        columns={tableProps.columns}
-        tableData={tableProps.tableData}
-      ></TableBasic>
-      <BtnReadSave
-        disabledRead={stateRef.current.processRun}
-        disabledSave={stateRef.current.processRun}
-        handleRead={() => processPCI(false)}
-        handleSave={() => processPCI(true)}
-      />
+      <CardSetting title={currentMenu.title}>
+        <TableBasic
+          columns={tableProps.columns}
+          tableData={tableProps.tableData}
+        ></TableBasic>
+        <BtnReadSave
+          disabledRead={stateRef.current.processRun}
+          disabledSave={stateRef.current.processRun}
+          handleRead={() => processPCI(false)}
+          handleSave={() => processPCI(true)}
+        />
+      </CardSetting>
     </>
   );
 }
