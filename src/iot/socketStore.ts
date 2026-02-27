@@ -77,7 +77,8 @@ export const useSocketStore = create<socketStorType>((set, get) => ({
     set({ _manualDisconnect: true });
     if (get().socket) return;
 
-    const ws = new WebSocket("ws://localhost:3001");
+    //const ws = new WebSocket("ws://localhost:3001");
+    const ws = new WebSocket("ws://esp8266.local:3001");
     ws.binaryType = "arraybuffer";
 
     ws.onopen = () => {

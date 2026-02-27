@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { registerType, picMonitorType } from "./../types";
 
 import { useMonitorStore } from "./../monitorStor";
-import { Segment } from "./../monitorComponent/segment";
+import { Monitor_Segment } from "./../monitorComponent/segment";
 import { useAddressesPool } from "./../hooks/adrressPool";
 import { Monitor_mode } from "../monitorComponent/mode";
 
@@ -40,7 +40,12 @@ const SecHome = forwardRef<HTMLDivElement, SectionProps>(
         }}
       >
         <h3>id:{id} / SecHome</h3>
-        <Monitor_mode registers={registers} addToPoolAddressesFn={addToPool} />
+        <Box sx={{ height: "50%", width: "100%" }}>
+          <Monitor_Segment
+            registers={registers}
+            addToPoolAddressesFn={addToPool}
+          />
+        </Box>
       </Box>
     );
   },

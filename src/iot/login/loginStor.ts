@@ -15,7 +15,7 @@ type useLoginStoreType = {
   setLogin: (value: boolean) => void;
 };
 export const useLoginStore = create<useLoginStoreType>((set, get) => ({
-  isLogin: false,
+  isLogin: true,
   setLogin: (value) => set({ isLogin: value }),
   changeLoginType: (type) => {
     set({ connectionType: type });

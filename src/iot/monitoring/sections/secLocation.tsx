@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { registerType, picMonitorType } from "./../types";
 
 import { useMonitorStore } from "./../monitorStor";
-import { Segment } from "./../monitorComponent/segment";
+
 import { useAddressesPool } from "./../hooks/adrressPool";
 
 type SectionProps = {
@@ -39,7 +39,6 @@ const SecLocation = forwardRef<HTMLDivElement, SectionProps>(
         }}
       >
         <h3> id:{id} / SecLocation</h3>
-        <Segment registers={registers} addToPoolAddressesFn={addToPool} />
       </Box>
     );
   },
